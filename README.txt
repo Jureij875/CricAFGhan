@@ -1,0 +1,1 @@
+Upload these five files directly into the ROOT of your GitHub repository (not inside a folder): index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png. Replace existing files with the same names. Then open GitHub Pages URL in Chrome.

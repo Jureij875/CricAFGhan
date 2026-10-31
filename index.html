@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06143c"><meta name="description" content="CRICAFGHAN live manual cricket scoreboard"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><title>CRICAFGHAN Live Scoreboard</title>
+<style>
+:root{--navy:#020b2b;--blue:#087dff;--cyan:#00d9ff;--green:#00e68a;--purple:#760cff;--red:#ff174f;--gold:#ffd34d;--white:#f4f8ff}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020720;color:var(--white);font-family:Arial,"Bahij Sans Arabic","Bahij Yekan",Tahoma,sans-serif}button,input,select{font:inherit}button{cursor:pointer;color:white}
+.app{height:100dvh;width:100%;max-width:760px;margin:auto;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 25%,#083b83,#04143e 48%,#01071d)}
+.topbar{height:45px;flex:0 0 45px;display:flex;align-items:center;justify-content:space-between;padding:4px 12px;border-bottom:1px solid #087dff}
+.brand{font-size:20px;font-weight:1000;font-style:italic;letter-spacing:1px;text-shadow:0 0 8px #00bfff}.brand span{color:#00d9ff}.live{background:linear-gradient(90deg,#f00045,#9f003a);border:1px solid #ff457a;border-radius:25px;padding:7px 12px;font-size:11px;font-weight:bold;box-shadow:0 0 12px #ff174f77}
+.display{height:66.6667%;flex:0 0 66.6667%;min-height:0;overflow:hidden;padding:7px 8px;display:flex;flex-direction:column;gap:6px;border-bottom:2px solid #00e5ff;background-image:linear-gradient(#00143b88,#00143b99),radial-gradient(circle at 50% 30%,#0b5ba8,#020a28 70%)}
+.toolbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;align-items:center}.toolbar select,.toolbar button{min-width:0;background:#061c50;border:1px solid #087dff;border-radius:10px;padding:7px 5px;color:#fff;font-size:10px;font-weight:bold}
+.reduce{display:flex;justify-content:center;align-items:center;gap:5px;border:1px solid #087dff;border-radius:10px;padding:5px;font-size:9px;color:#7ff8ff}.reduce input{accent-color:#00e5ff}
+.hero{border:1px solid #087dff;border-radius:14px;padding:6px 5px;background:linear-gradient(120deg,#041747dd,#06123beF);box-shadow:0 0 12px #008dff30}
+.teams{display:grid;grid-template-columns:1fr 26px 1fr;gap:3px;align-items:center}.team{text-align:center;min-width:0}.teamname{font-size:clamp(12px,3.6vw,18px);font-weight:1000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.flag{width:36px;height:36px;border-radius:50%;border:2px solid var(--cyan);object-fit:cover;background:#102650;display:block;margin:0 auto 3px}.score{font:bold clamp(27px,8vw,42px)/1.15 Arial;color:var(--green);direction:ltr;white-space:nowrap}.team:last-child .score{color:#00baff}.overs{font-size:11px;color:#91dfff;direction:ltr}.vs{font-size:21px;font-weight:1000;font-style:italic;color:#4df3ff;text-shadow:0 0 12px #00bfff;text-align:center}
+.status{margin-top:4px;text-align:center;border:1px solid #087dff;border-radius:9px;padding:6px;color:var(--gold);font-weight:1000;font-size:clamp(10px,3vw,14px)}
+.scorecard-link-row{display:flex;justify-content:flex-start;margin-top:-1px}.scorecard-link-row .btn{font-size:10px;min-height:27px;padding:4px 10px;background:linear-gradient(#087fa9,#034363);border-color:#4ce8ff}.stats{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:5px}.stat{border:1px solid #087dff;border-radius:8px;padding:5px 2px;text-align:center;background:#041743;font-size:9px;color:#93dfff}.stat b{display:block;color:white;font-size:13px;margin-top:3px}
+.matchline{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:10px}.matchline select,.matchline input{min-width:0;max-width:48%;background:#081a4a;border:1px solid #086bcb;border-radius:8px;color:white;padding:6px;font-size:10px}
+.players{display:grid;grid-template-columns:1fr 1fr;gap:5px}.player{display:flex;align-items:center;gap:5px;min-width:0;padding:5px;border:1px solid #086dd0;border-radius:9px;background:#061a45}.player img{width:31px;height:31px;border-radius:50%;object-fit:cover;background:#153261;border:1px solid #00d9ff;flex-shrink:0}.pinfo{min-width:0}.pname{font-size:11px;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pstat{font-size:11px;color:var(--gold);margin-top:3px;direction:ltr}
+.overbox{border:1px solid #087dff;border-radius:9px;background:linear-gradient(100deg,#071b47,#16064c);padding:6px}.overhead{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:bold;margin-bottom:5px}.balls{display:flex;align-items:center;gap:4px;flex-wrap:wrap}.ball{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#25344e;border:1px solid #7085a9;font:bold 11px Arial}.ball.boundary{background:#00a954;border-color:#00ff9d}.ball.wicket{background:#cf0035;border-color:#ff6687}.ball.extra{background:#520fc4;border-color:#bb8cff}.footstats{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:4px}.footstats div{border:1px solid #6d20e6;border-radius:7px;background:#110b45;text-align:center;padding:5px 2px;font-size:9px}.footstats b{display:block;font-size:12px;color:#72efff;margin-top:2px}
+.controls{height:33.3333%;flex:0 0 33.3333%;min-height:0;overflow:auto;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:linear-gradient(180deg,#032b3c,#020a20);border-top:2px solid #00edc4;display:flex;flex-direction:column;gap:5px}
+.controltitle{font-weight:1000;color:#00f0c8;font-size:13px;display:flex;justify-content:space-between;align-items:center}.controltitle small{font-size:9px;color:#a3d4e9;font-weight:normal}
+.names{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px}.field{min-width:0;display:flex;flex-direction:column;gap:3px;color:#c7eaff;font-size:9px}.field input[type=file]{font-size:8px;padding:3px}.field input,.field select{width:100%;min-width:0;background:#061b3c;color:white;border:1px solid #1768a7;border-radius:7px;padding:6px 4px;font-size:10px}
+.btnrow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.btn{min-width:0;min-height:32px;border:1px solid #1778bf;border-radius:8px;background:linear-gradient(#104879,#061a39);font-weight:900;font-size:12px;padding:3px 1px}.four{background:linear-gradient(#00c85d,#007b45);border-color:#00ff91}.six{background:linear-gradient(#008bff,#0049c9);border-color:#6adfff}.nb{background:linear-gradient(#5c13d5,#28066f);border-color:#c09aff}.out{background:linear-gradient(#ff3155,#a30026);border-color:#ff8098}.extra{background:linear-gradient(#087fa9,#034363);border-color:#4ce8ff}.undo{background:#123256}.actionrow{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.actionrow .btn{font-size:9px;min-height:30px;flex:1 1 auto}.actionrow .reset-btn{margin-left:auto;flex:0 0 auto;background:linear-gradient(#ff3155,#a30026);border-color:#ff8098}
+.flash{position:fixed;inset:45px 0 33.3%;z-index:9;display:none;align-items:center;justify-content:center;flex-direction:column;background:#010725df;pointer-events:none}.flash.show{display:flex;animation:fade 1s forwards}.flash strong{font-size:65px;font-weight:1000}.flash span{font-weight:1000;font-size:20px}.flash.boundary{color:#00ff9d;text-shadow:0 0 20px #00ff9d}.flash.wicket{color:#ff3155;text-shadow:0 0 20px #ff3155}@keyframes fade{0%{opacity:0}15%,75%{opacity:1}100%{opacity:0}}
+@media(min-width:520px){.app{border-left:1px solid #087dff;border-right:1px solid #087dff}.display{padding:10px;gap:8px}.controls{padding:8px}.flag{width:50px;height:50px}}
+
+
+
+
+/* Final mobile layout: account for the 45px header so the scrolling panel is not clipped. */
+html, body { height:100%; overflow:hidden !important; }
+.app { height:100dvh; overflow:hidden; }
+.topbar { flex:0 0 45px; }
+.display {
+  gap:4px;
+  padding:5px 7px;
+  height:calc((100dvh - 45px) * 0.70) !important;
+  flex:0 0 calc((100dvh - 45px) * 0.70) !important;
+  min-height:0;
+  overflow:hidden !important;
+}
+.controls {
+  height:auto !important;
+  flex:1 1 0 !important;
+  min-height:0;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom)) !important;
+}
+/* Action buttons stay inside the scrolling Manual Score Update menu. */
+.controls > * { flex-shrink:0; }
+.actionrow {
+  position:static !important;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:4px;
+  width:100%;
+  margin-top:2px;
+  padding:4px 0 8px;
+  background:transparent;
+  border-top:1px solid #00edc477;
+  box-shadow:none;
+}
+.actionrow .btn { min-height:30px; height:30px; font-size:9px; padding:2px 1px; flex:initial; white-space:nowrap; border-radius:6px; }
+.actionrow .reset-btn { margin-left:0; }
+.manual-edit-fields label {
+  display:block;
+  min-width:0;
+  padding:6px;
+  border:1px solid #087dff;
+  border-radius:8px;
+  background:#061a45;
+  color:#8feeff;
+  font-size:9px;
+  font-weight:bold;
+}
+.manual-edit-fields input {
+  display:block;
+  margin-top:5px;
+  padding:7px 5px;
+  color:#fff;
+  background:#081a4a;
+  border:1px solid #086bcb;
+  border-radius:6px;
+  font-size:12px;
+}
+
+</style></head>
+<body><main class="app">
+<header class="topbar"><span>☰</span><div class="brand">CRIC<span>AFGHAN</span></div><button id="installApp" class="live" style="display:none;border-radius:8px;padding:6px 8px">＋ INSTALL</button><span class="live" id="liveBadge">● LIVE</span></header>
+<section class="display">
+<div class="toolbar"><select id="format" onchange="formatChanged()"><option value="T20">🏆 T20</option><option value="ODI">🏏 ODI</option><option value="TEST">⌛ TEST</option><option value="CUSTOM">⚙ Custom</option></select><label class="reduce"><input id="reduced" type="checkbox" onchange="render()">Reduced overs</label><button onclick="editTeams()">⚙ Options</button></div>
+<div class="hero"><div class="teams">
+<div class="team"><img class="flag" id="flag0" alt=""><div class="teamname" id="team0">TEAM A</div><div class="score" id="score0">0/0</div><div class="overs" id="overs0">Overs 0.0</div></div>
+<div class="vs">VS</div>
+<div class="team"><img class="flag" id="flag1" alt=""><div class="teamname" id="team1">TEAM B</div><div class="score" id="score1">0/0</div><div class="overs" id="overs1">Overs 0.0</div></div>
+</div><div class="status" id="status">MATCH READY</div></div>
+<div class="stats"><div class="stat">CRR<b id="crr">0.00</b></div><div class="stat">TARGET / RESULT<b id="target">—</b></div><div class="stat">RRR<b id="rrr">—</b></div></div>
+<div class="scorecard-link-row"><button class="btn" onclick="showScorecard()">CRICAFGHAN Scorecard</button></div>
+
+
+<div class="players"><div class="player"><img id="photo0" alt=""><div class="pinfo"><div class="pname" id="batname0">Batter 1 ★</div><div class="pstat" id="batstat0">0 (0)</div></div></div><div class="player"><img id="photo1" alt=""><div class="pinfo"><div class="pname" id="batname1">Batter 2</div><div class="pstat" id="batstat1">0 (0)</div></div></div></div>
+<div class="overbox"><div class="overhead"><span>📊 OVER SUMMARY</span><span id="overlabel">Over 0 · 0 runs</span></div><div class="balls" id="balls"><span>No balls yet</span></div></div>
+<div class="footstats"><div>CRR<b id="crr2">0.00</b></div><div>LAST WICKET<b id="lastWicket">None</b></div><div>SESSION<b id="session">0.0 overs</b></div></div>
+</section>
+<section class="controls">
+<div class="manual-edit-fields">
+  <label>TEAM 1 SCORE (runs/wickets)
+    <input id="direct0" type="text" inputmode="numeric" placeholder="e.g. 191/2" onchange="setDirectScore(0)">
+  </label>
+  <label>TEAM 1 OVERS BOWLED
+    <input id="teamOvers0" type="text" inputmode="decimal" placeholder="e.g. 12.4" onchange="setTeamOvers(0)">
+  </label>
+  <label>TARGET
+    <input id="targetInput" type="number" min="0" placeholder="e.g. 250" onchange="render()">
+  </label>
+  <label>TEAM 2 SCORE (runs/wickets)
+    <input id="direct1" type="text" inputmode="numeric" placeholder="e.g. 438/10" onchange="setDirectScore(1)">
+  </label>
+  <label>TEAM 2 OVERS BOWLED
+    <input id="teamOvers1" type="text" inputmode="decimal" placeholder="e.g. 19.2" onchange="setTeamOvers(1)">
+  </label>
+</div>
+
+<div class="controltitle">✎ MANUAL SCORE UPDATE <small>Tap to update live</small></div>
+<div class="names"><label class="field">BATTER 1 · Striker<input id="name0" value="Batter 1" onchange="renamePlayer(0)"></label><label class="field">BATTER 2 · Non-striker<input id="name1" value="Batter 2" onchange="renamePlayer(1)"></label><label class="field">BOWLER<input id="bowler" value="Bowler 1" onchange="render()"></label></div>
+<div class="btnrow"><button class="btn" onclick="run(0)">0</button><button class="btn" onclick="run(1)">1</button><button class="btn" onclick="run(2)">2</button><button class="btn" onclick="run(3)">3</button><button class="btn four" onclick="run(4)">4<br><small>FOUR</small></button><button class="btn six" onclick="run(6)">6<br><small>SIX</small></button><button class="btn nb" onclick="noBall(0)">NB<br><small>+0</small></button></div>
+<div class="btnrow"><button class="btn nb" onclick="noBall(1)">NB+1</button><button class="btn nb" onclick="noBall(2)">NB+2</button><button class="btn nb" onclick="noBall(3)">NB+3</button><button class="btn nb" onclick="noBall(4)">NB+4</button><button class="btn nb" onclick="noBall(5)">NB+5</button><button class="btn nb" onclick="noBall(6)">NB+6</button><button class="btn extra" onclick="customNoBall()">NB CUSTOM</button></div>
+<div class="btnrow"><button class="btn out" onclick="wicket()">WICKET</button><button class="btn extra" onclick="wideRuns(1)">WD1</button><button class="btn extra" onclick="wideRuns(2)">WD2</button><button class="btn extra" onclick="wideRuns(3)">WD3</button><button class="btn extra" onclick="wideRuns(4)">WD4</button><button class="btn extra" onclick="wideRuns(5)">WD5</button><button class="btn extra" onclick="extra('BYE')">BYE</button><button class="btn extra" onclick="extra('LB')">LEG BYE</button><button class="btn extra" onclick="overthrowBatterRuns()">OTB · EDITABLE</button><button class="btn undo" onclick="undo()">↶ UNDO</button></div>
+<div class="names"><label class="field">BATTER 1 RUNS<input id="editRuns0" type="number" min="0" value="0" onchange="setBatterStat(0,'r')"></label><label class="field">BATTER 1 BALLS<input id="editBalls0" type="number" min="0" value="0" onchange="setBatterStat(0,'b')"></label><label class="field">BATTER 2 RUNS<input id="editRuns1" type="number" min="0" value="0" onchange="setBatterStat(1,'r')"></label><label class="field">BATTER 2 BALLS<input id="editBalls1" type="number" min="0" value="0" onchange="setBatterStat(1,'b')"></label><label class="field">TARGET OVERS<input id="oversLimit" type="number" min="1" value="20" onchange="s.limit=Math.max(1,Number(this.value)||20);render()"></label></div>
+<div class="names"><label class="field">TEAM 1 FLAG / IMAGE<input type="file" accept="image/*" onchange="uploadImage(event,'flag',0)"></label><label class="field">TEAM 2 FLAG / IMAGE<input type="file" accept="image/*" onchange="uploadImage(event,'flag',1)"></label><label class="field">PLAYER 1 PHOTO<input type="file" accept="image/*" onchange="uploadImage(event,'photo',0)"></label></div>
+<div class="names"><label class="field">PLAYER 2 PHOTO<input type="file" accept="image/*" onchange="uploadImage(event,'photo',1)"></label><label class="field">MANUAL WICKETS<input id="editWickets" type="number" min="0" max="10" value="0" onchange="setWickets()"></label></div>
+<div class="actionrow"><button class="btn" onclick="swap()">↔ Strike</button><button class="btn" onclick="endOver()">End Over</button><button class="btn" onclick="endInnings()">Inng End</button><button class="btn reset-btn" onclick="resetAll()">Reset</button></div>
+</section><div class="flash" id="flash"><strong id="flashN">4</strong><span id="flashT">FOUR!</span></div></main>
+<script>
+const blank='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="#0a2854"/><circle cx="40" cy="27" r="15" fill="#83b9dc"/><path d="M7 80Q10 47 40 47T73 80" fill="#83b9dc"/></svg>');
+const flag='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><circle cx="40" cy="40" r="38" fill="#09295a" stroke="#00d9ff" stroke-width="3"/><path d="M20 20L60 60M60 20L20 60" stroke="white" stroke-width="7"/><circle cx="40" cy="40" r="10" fill="#00df8b"/></svg>');
+let s={teams:[{name:'ENG',runs:191,w:2,b:204,flag},{name:'NZ',runs:438,w:10,b:689,flag}],players:[{name:'Batter 1',r:0,b:0,photo:blank},{name:'Batter 2',r:0,b:0,photo:blank}],strike:0,inn:0,balls:[],overRuns:0,limit:20,lastWicket:'None',history:[]};
+// Start fresh, but persist scores across reloads in this browser.
+try{let old=JSON.parse(localStorage.getItem('ca-score-v1'));if(old&&old.teams&&old.players)s=old}catch(e){}
+function t(){return s.teams[s.inn]}function ov(x){return Math.floor(x.b/6)+'.'+x.b%6}
+function save(){try{let copy={...s,history:[]};localStorage.setItem('ca-score-v1',JSON.stringify(copy))}catch(e){}}
+function snap(){let x=JSON.parse(JSON.stringify(s));x.history=[];s.history.push(x);if(s.history.length>50)s.history.shift()}
+function addBall(label,type,legal=true){s.balls.push({label,type});if(legal)t().b++}
+function run(n){snap();let p=s.players[s.strike];t().runs+=n;p.r+=n;p.b++;addBall(String(n),n===4||n===6?'boundary':n===0?'':'',true);s.overRuns+=n;if(n%2)s.strike=1-s.strike;if(n===4)flash('4','FOUR!','boundary');if(n===6)flash('6','SIX!','boundary');if(t().b>0&&t().b%6===0)s.strike=1-s.strike;render()}
+// No-balls never add to the team's legal-ball count, but the striker faces a ball.
+// n means runs scored off the bat; the one-run no-ball penalty is added separately.
+function noBall(n=0){
+  // All no-balls count as a ball faced by the striker, but never as a legal team ball.
+  // NB+0 credits no batter runs; NB+1..NB+6 credit the selected runs to the batter.
+  n=Math.max(0,Math.min(6,Number(n)||0));snap();
+  const p=s.players[s.strike];
+  t().runs+=1+n;
+  if(n>0)p.r+=n;
+  p.b++;
+  addBall(n===0?'NB+0':'NB+'+n,'extra',false);
+  s.overRuns+=1+n;
+  if(n%2)s.strike=1-s.strike;
+  flash('NB','NO BALL · '+(1+n)+' TEAM RUNS','boundary');render();
+}
+function customNoBall(){
+  const value=prompt('No-ball result: enter batter runs (0–6), or leg-byes like 2leg / 2lb. Examples: 4, 6, 2leg. No-ball penalty (+1) is added automatically.','0');
+  if(value===null)return;
+  const v=value.trim().toLowerCase().replace(/\s+/g,'');
+  const m=v.match(/^(\d+)(leg|lb|bye|b)?$/);
+  if(!m){alert('Use 0–6 for batter runs, or e.g. 2leg / 2lb / 2bye.');return;}
+  const n=Number(m[1]),kind=m[2]||'bat';
+  if(!Number.isInteger(n)||n<0||n>6){alert('Enter a number from 0 to 6.');return;}
+  snap();const p=s.players[s.strike];t().runs+=1+n;p.b++;
+  if(kind==='bat'){p.r+=n;}
+  // Batter faces the no-ball, but bye/leg-bye runs are not credited to the batter.
+  addBall('NB+'+(1+n)+(kind==='leg'||kind==='lb'?' LB'+n:kind==='bye'?' BYE'+n:''),'extra',false);
+  s.overRuns+=1+n;
+  if(n%2)s.strike=1-s.strike;
+  flash('NB','NO BALL · '+(1+n)+' TEAM RUNS','boundary');render();
+}
+function wideRuns(n){
+  if(!Number.isInteger(n)||n<1||n>5)return;
+  snap();t().runs+=n;
+  // Wides add team runs only and never count as a legal ball or batter ball faced.
+  addBall('WD'+n,'extra',false);
+  s.overRuns+=n;
+  if(n%2)s.strike=1-s.strike;
+  render();
+}
+function endInnings(){
+  if(!confirm('End '+t().name+' innings and start the other team innings?'))return;
+  snap();
+  s.inn= s.inn===0 ? 1 : 0;
+  s.balls=[];s.overRuns=0;s.strike=0;
+  render();
+}
+function showScorecard(){
+  const current=s.players.map((p,i)=>`<tr><td>${i===s.strike?'★ ':''}${escapeHTML(p.name)}${i===s.strike?' (Striker)':' (Non-striker)'}</td><td>${p.r}</td><td>${p.b}</td><td>Batting</td></tr>`).join('');
+  const last=s.lastWicket && s.lastWicket!=='None' ? `<p><b>Last dismissed:</b> ${escapeHTML(s.lastWicket)}</p>` : '<p><b>Dismissed players:</b> None recorded yet</p>';
+  const html=`<!doctype html><html><head><meta charset="utf-8"><title>CRICAFGHAN Scorecard</title><style>body{font:16px Arial,sans-serif;background:#071b3d;color:#fff;padding:20px}h1{color:#00d9ff}table{border-collapse:collapse;width:100%;margin-top:16px}td,th{padding:10px;border:1px solid #2585b8;text-align:left}th{background:#123c70}p{padding:10px;background:#102b50;border-radius:8px}</style></head><body><h1>CRICAFGHAN Scorecard</h1><h2>${escapeHTML(t().name)} — ${t().runs}/${t().w} (${ov(t())} overs)</h2>${last}<h3>Currently Batting</h3><table><thead><tr><th>Player</th><th>Runs</th><th>Balls</th><th>Status</th></tr></thead><tbody>${current}</tbody></table></body></html>`;
+  const win=window.open('','_blank');
+  if(!win){alert('Please allow pop-ups to view the scorecard.');return;}
+  win.document.open();win.document.write(html);win.document.close();
+}
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function extra(type){
+  let label=type==='LB'?'Leg bye':type==='OT'?'Overthrow':type==='BYE'?'Bye':'Extra';
+  let promptText=type==='OT'?'Overthrow runs? (These do NOT add a ball)':'How many '+label.toLowerCase()+' runs?';
+  let n=Number(prompt(promptText,'1'));
+  if(!Number.isInteger(n)||n<1||n>6)return;
+  snap();t().runs+=n;
+  // Byes and leg byes are legal deliveries; overthrow runs do not add another ball.
+  addBall((type==='LB'?'LB':type==='OT'?'OT':type)+(n>1?'+'+n:''),'extra',type!=='OT');
+  s.overRuns+=n;if(n%2)s.strike=1-s.strike;render();
+}
+function overthrowBatterRuns(){
+  const value=prompt('OTB runs to credit to BOTH team and batter (no ball faced is added):','1');
+  if(value===null)return;
+  const n=Number(value.trim());
+  if(!Number.isInteger(n)||n<0||n>100){alert('Enter a whole number from 0 to 100.');return;}
+  snap();
+  const p=s.players[s.strike];
+  t().runs+=n;
+  p.r+=n;
+  // OTB does not add a delivery/ball faced or a legal ball to the over.
+  addBall('OTB'+(n>0?'+'+n:''),'extra',false);
+  s.overRuns+=n;
+  if(n%2)s.strike=1-s.strike;
+  flash('OTB',n+' RUNS · NO BALL ADDED','boundary');
+  render();
+}
+function wicket(){
+  if(t().w>=10)return;
+  const outIndex=s.strike;
+  const outPlayer=s.players[outIndex];
+  const outBalls=outPlayer.b+1;
+  snap();
+  t().w++;
+  outPlayer.b=outBalls;
+  s.lastWicket=outPlayer.name+' '+outPlayer.r+' ('+outPlayer.b+')';
+  addBall('W','wicket',true);
+  // Replace the dismissed striker in the same batting slot and reset their figures.
+  s.players[outIndex]={name:'New Batter',r:0,b:0,photo:blank};
+  s.strike=outIndex;
+  flash('W','WICKET!','wicket');
+  render();
+}
+function swap(){s.strike=1-s.strike;render()}function endOver(){snap();s.strike=1-s.strike;s.overRuns=0;render()}
+function switchInnings(){snap();s.inn=1-s.inn;s.balls=[];s.overRuns=0;s.strike=0;render()}
+function resetAll(){if(!confirm('Reset the match scores, overs, wickets and batter stats for both teams?'))return;s.teams.forEach(x=>{x.runs=0;x.w=0;x.b=0});s.players.forEach(x=>{x.r=0;x.b=0});s.balls=[];s.overRuns=0;s.inn=0;s.lastWicket='None';s.history=[];render()}
+function undo(){if(!s.history.length)return;let h=s.history.pop();h.history=s.history;s=h;render()}
+function renamePlayer(i){s.players[i].name=document.getElementById('name'+i).value||('Batter '+(i+1));render()}
+function editTeams(){let a=prompt('Team 1 name',s.teams[0].name);if(a!==null)s.teams[0].name=a||'TEAM A';let b=prompt('Team 2 name',s.teams[1].name);if(b!==null)s.teams[1].name=b||'TEAM B';let f=prompt('Format: T20, ODI, TEST or CUSTOM',document.getElementById('format').value);if(f){let el=document.getElementById('format');if([...el.options].some(o=>o.value===f.toUpperCase()))el.value=f.toUpperCase();}formatChanged();render()}
+function formatChanged(){let f=document.getElementById('format').value;if(f==='T20')s.limit=20;else if(f==='ODI')s.limit=50;else if(f==='TEST')s.limit=999;else {let n=Number(prompt('Enter overs per innings','10'));if(n>0)s.limit=n;}render()}
+function flash(n,txt,type){document.getElementById('flashN').textContent=n;document.getElementById('flashT').textContent=txt;let e=document.getElementById('flash');e.className='flash show '+type;setTimeout(()=>e.className='flash',950)}
+function render(){
+if(document.getElementById('teamOvers0')&&document.activeElement!==document.getElementById('teamOvers0'))document.getElementById('teamOvers0').value=Math.floor(s.teams[0].b/6)+'.'+s.teams[0].b%6;
+if(document.getElementById('teamOvers1')&&document.activeElement!==document.getElementById('teamOvers1'))document.getElementById('teamOvers1').value=Math.floor(s.teams[1].b/6)+'.'+s.teams[1].b%6;
+if(document.getElementById('direct0')&&document.activeElement!==document.getElementById('direct0'))document.getElementById('direct0').value=s.teams[0].runs+'/'+s.teams[0].w;if(document.getElementById('direct1')&&document.activeElement!==document.getElementById('direct1'))document.getElementById('direct1').value=s.teams[1].runs+'/'+s.teams[1].w;if(document.getElementById('teamName0')&&document.activeElement!==document.getElementById('teamName0'))document.getElementById('teamName0').value=s.teams[0].name;if(document.getElementById('teamName1')&&document.activeElement!==document.getElementById('teamName1'))document.getElementById('teamName1').value=s.teams[1].name;if(document.getElementById('editRuns0')&&document.activeElement!==document.getElementById('editRuns0'))document.getElementById('editRuns0').value=s.players[0].r;if(document.getElementById('editRuns1')&&document.activeElement!==document.getElementById('editRuns1'))document.getElementById('editRuns1').value=s.players[1].r;if(document.getElementById('editBalls0')&&document.activeElement!==document.getElementById('editBalls0'))document.getElementById('editBalls0').value=s.players[0].b;if(document.getElementById('editBalls1')&&document.activeElement!==document.getElementById('editBalls1'))document.getElementById('editBalls1').value=s.players[1].b;if(document.getElementById('editWickets')&&document.activeElement!==document.getElementById('editWickets'))document.getElementById('editWickets').value=t().w;if(document.getElementById('oversLimit')&&document.activeElement!==document.getElementById('oversLimit'))document.getElementById('oversLimit').value=s.limit; s.teams.forEach((x,i)=>{document.getElementById('team'+i).textContent=x.name;document.getElementById('score'+i).textContent=x.runs+'/'+x.w;document.getElementById('overs'+i).textContent='Overs '+ov(x);document.getElementById('flag'+i).src=x.flag});s.players.forEach((p,i)=>{document.getElementById('batname'+i).textContent=p.name+(s.strike===i?' ★':'');document.getElementById('batstat'+i).textContent=p.r+' ('+p.b+')';document.getElementById('photo'+i).src=p.photo;let ni=document.getElementById('name'+i);if(ni&&document.activeElement!==ni)ni.value=p.name});document.getElementById('crr').textContent=t().b?(t().runs/(t().b/6)).toFixed(2):'0.00';document.getElementById('crr2').textContent=document.getElementById('crr').textContent;let manualTarget=document.getElementById('targetInput')?.value;let tar=manualTarget!==''&&manualTarget!==undefined?Number(manualTarget):(s.inn===1?s.teams[0].runs+1:'—');document.getElementById('target').textContent=tar;let rem=Math.max(0,(s.limit*6)-t().b);document.getElementById('rrr').textContent=s.inn===1&&rem?((Math.max(0,tar-t().runs)/(rem/6))).toFixed(2):'—';document.getElementById('status').textContent=t().w>=10?'INNINGS COMPLETE':t().b>=s.limit*6?'OVERS COMPLETE':'LIVE · MANUAL SCORE';document.getElementById('overlabel').textContent='Over '+Math.floor(t().b/6)+' · '+s.overRuns+' runs';document.getElementById('lastWicket').textContent=s.lastWicket;document.getElementById('session').textContent=ov(t())+' overs';let el=document.getElementById('balls');el.innerHTML='';let list=s.balls.slice(-6);if(!list.length)el.textContent='No balls yet';list.forEach(x=>{let b=document.createElement('span');b.className='ball '+(x.type||'');b.textContent=x.label;el.appendChild(b)});save()}
+
+
+function setTeamOvers(i){
+  const el=document.getElementById('teamOvers'+i);
+  const m=el.value.trim().match(/^(\d+)(?:\.(\d))?$/);
+  if(!m || Number(m[2]||0)>5){alert('Enter overs like 12.4 (balls must be 0–5).');render();return;}
+  s.teams[i].b=Number(m[1])*6+Number(m[2]||0);
+  render();
+}
+
+function setDirectScore(i){let el=document.getElementById('direct'+i);let value=el.value.trim();let m=value.match(/^(\d+)(?:\s*\/\s*(\d+))?$/);if(!m)return;let runs=Number(m[1]), wickets=m[2]===undefined?s.teams[i].w:Number(m[2]);if(!Number.isSafeInteger(runs)||runs<0||!Number.isSafeInteger(wickets)||wickets<0||wickets>10)return;s.teams[i].runs=runs;s.teams[i].w=wickets;document.getElementById('score'+i).textContent=runs+'/'+wickets;save();render()}
+function setTeamName(i){s.teams[i].name=document.getElementById('teamName'+i).value.trim()||('TEAM '+(i+1));render()}
+function setBatterStat(i,key){const el=document.getElementById((key==='r'?'editRuns':'editBalls')+i);s.players[i][key]=Math.max(0,Math.floor(Number(el.value)||0));render()}
+function setWickets(){t().w=Math.min(10,Math.max(0,Number(document.getElementById('editWickets').value)||0));render()}
+function setOvers(){let v=document.getElementById('editOvers').value.trim().match(/^(\d+)(?:\.(\d))?$/);if(!v||Number(v[2]||0)>5){alert('Overs format must be like 12.3');render();return;}t().b=Number(v[1])*6+Number(v[2]||0);render()}
+function uploadImage(ev,kind,i){let file=ev.target.files&&ev.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{if(kind==='flag')s.teams[i].flag=reader.result;else s.players[i].photo=reader.result;render()};reader.readAsDataURL(file)}
+function openScorecard(){let w=window.open('','CRICAFGHAN_SCORECARD','width=700,height=850');if(!w){alert('Popup blocked. Allow pop-ups for this page, then tap Scorecard again.');return;}let esc=x=>String(x??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));let title=esc(document.getElementById('matchTitle').value||'CRICAFGHAN Scorecard');let players=s.players.map((p,i)=>`<tr><td>${esc(p.name)}${s.strike===i?' ★':''}</td><td>${p.r}</td><td>${p.b}</td><td>${p.b?(p.r/p.b*100).toFixed(1):'—'}</td></tr>`).join('');let teams=s.teams.map(x=>`<section><h2>${esc(x.name)}</h2><div class="score">${x.runs}/${x.w}</div><p>Overs ${ov(x)}</p></section>`).join('');w.document.write(`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{margin:0;background:#06143c;color:#f5f8ff;font-family:Arial,Tahoma,sans-serif;padding:18px}h1{text-align:center;color:#00e5ff;font-size:23px}main{max-width:800px;margin:auto}.teams{display:grid;grid-template-columns:1fr 1fr;gap:12px}section{border:1px solid #087dff;border-radius:14px;background:#071c4b;padding:14px;text-align:center}h2{margin:0 0 8px}.score{font-size:38px;color:#00e68a;font-weight:bold}table{width:100%;border-collapse:collapse;margin-top:16px;background:#071c4b}th,td{padding:12px 8px;border-bottom:1px solid #22528d;text-align:left}th{color:#7df5ff}button{padding:10px 15px;background:#087dff;color:white;border:0;border-radius:8px;margin-top:14px}</style></head><body><main><h1>CRICAFGHAN · ${title}</h1><div class="teams">${teams}</div><h2>Batting Scorecard</h2><table><thead><tr><th>Player</th><th>Runs</th><th>Balls</th><th>SR</th></tr></thead><tbody>${players}</tbody></table><p>Bowler: ${esc(document.getElementById('bowler').value)}</p><button onclick="window.print()">Print / Save PDF</button></main></body></html>`);w.document.close()}
+
+// PWA installation: available when hosted over HTTPS (or localhost) in a supported browser.
+let deferredInstallPrompt=null;
+const installButton=document.getElementById('installApp');
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;installButton.style.display='inline-block';});
+installButton.addEventListener('click',async()=>{
+  if(!deferredInstallPrompt){alert('To install CRICAFGHAN, open this app in Chrome after it has been published on an HTTPS website, then use the browser menu > Install app / Add to Home screen.');return;}
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt=null;installButton.style.display='none';
+});
+window.addEventListener('appinstalled',()=>{installButton.style.display='none';});
+if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(err=>console.log('Service worker:',err)));}
+
+render();
+</script></body></html>
